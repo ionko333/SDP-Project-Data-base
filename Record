@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Record
+{
+	long long unsigned int Id;
+	char Plane[257];
+	char Type[257];
+	long long unsigned int Flights;
+public:
+	Record(long long unsigned int,const char [],const char [], long long unsigned int);
+};
+Record::Record(long long unsigned int _Id = 0,const char _Plane [257] = "",
+	const char  _Type[257] = "", long long unsigned int _Flights = 0)
+{
+	Id = _Id;
+	Flights = _Flights;
+	int planeLength = strlen(_Plane);
+	for (int i = 0; i < planeLength; i++)
+	{
+		Plane[i] = _Plane[i];
+	}
+	int typeLength = strlen(_Plane);
+	for (int i = 0; i < typeLength; i++)
+	{
+		Type[i] = _Type[i];
+	}
+}
