@@ -1,0 +1,178 @@
+void createRecord(ofstream& oFile, unsigned long long int Id)
+{
+	char Plane[257];
+	char Type[257];
+	long long unsigned int Flights;
+	cout << "Please type the Plane: ";
+	cin >> Plane;
+	cout << endl;
+	cout << "Please type the type: ";
+	cin >> Type;
+	cout << endl;
+	cout << "Please type the number of flights: ";
+	cin >> Flights;
+	cout << endl;
+	Record record(Id, Plane, Type, Flights);
+	oFile << Id << '\n' << Plane << '\n' << Type << '\n' << Flights << '\n';
+	oFile.close();
+}
+
+int recordPosition(ifstream &iFile, unsigned long long int Id)
+{
+	int position = 0;
+	bool foundId = false;
+	unsigned long long int readId;
+	char dummy[257];
+	char dummy2[257];
+	unsigned long long int readFlights;
+	while (iFile)
+	{
+		iFile >> readId >> dummy >> dummy2 >> readFlights;
+		if (Id == readId)
+		{
+			foundId = true;
+			break;
+		}
+		if (!iFile)
+		{
+			break;
+		}
+		++position;
+	}
+	iFile.close();
+	if (foundId)
+	{
+		return position;
+	}
+	return -1;
+}
+
+bool isDeletedRecord(ifstream& iFile, unsigned long long int Id, int& cntRecords)
+{
+	int position = recordPosition(iFile, Id);
+	if (position == -1)
+	{
+		return false;
+	}
+	unsigned long long int readId;
+	char dummy[257];
+	char dummy2[257];
+	unsigned long long int readFlights;
+	Record * records = new Record[cntRecords - 1];
+	iFile.open("Planes.db");
+	for (int i = 0; i < position; ++i)
+	{
+		iFile >> readId >> dummy >> dummy2 >> readFlights;
+		records[i] = Record(readId, dummy, dummy2, readFlights);
+	}
+	for (int i = position; i < cntRecords - 1; ++i)
+	{
+		iFile >> readId >> dummy >> dummy2 >> readFlights;
+		records[i] = Record(readId, dummy, dummy2, readFlights);
+	}
+	iFile.close();
+	ofstream oFile;
+	oFile.open("Planed.db", ios::trunc);
+	for (int i = 0; i < cntRecords - 1; ++i)
+	{
+		oFile << records[i].Id << '\n' << records[i].Plane << 'n'
+			<< records[i].Type << '\n' << records[i].Flights << '\n';
+	}
+	oFile.close();
+	return true;
+}
+
+bool isUpdatedAttribute(ifstream& iFile, unsigned long long int Id, int cntRecords, char attr[8])
+{
+	int position = recordPosition(iFile, Id);
+	if (position == -1)
+	{
+		return false;
+	}
+	unsigned long long int readId;
+	char dummy[257];
+	char dummy2[257];
+	unsigned long long int readFlights;
+	Record * records = new Record[cntRecords];
+	iFile.open("Planes.db");
+	for (int i = 0; i < cntRecords; i++)
+	{
+		iFile >> readId >> dummy >> dummy2 >> readFlights;
+		records[i] = Record(readId, dummy, dummy2, readFlights);
+	}
+	iFile.close();
+	if (!strcmp(attr,"Id"))
+	{
+		unsigned long long int newId;
+		cout << "Please type the new Id: ";
+		cin >> newId;
+		cout << endl;
+		records[position].Id = newId;
+	}
+	else if (!strcmp(attr, "Planes"))
+	{
+		char newPlane[257];
+		cout << "Please type the new Plane: ";
+		cin >> newPlane;
+		cout << endl;
+		int length = strlen(newPlane);
+		for (int i = 0; i < length; i++)
+		{
+			records[position].Plane[i] = newPlane[i];
+		}
+	}
+	else if (!strcmp(attr, "Type"))
+	{
+		char newType[257];
+		cout << "Please type the new Type: ";
+		cin >> newType;
+		cout << endl;
+		int length = strlen(newType);
+		for (int i = 0; i < length; i++)
+		{
+			records[position].Type[i] = newType[i];
+		}
+	}
+	else if (!strcmp(attr, "Flights"))
+	{
+		unsigned long long int newFlights;
+		cout << "Please type the new number of flights: ";
+		cin >> newFlights;
+		cout << endl;
+		records[position].Flights = newFlights;
+	}
+	ofstream oFile;
+	oFile.open("Planes.db",ios::trunc);
+	for (int i = 0; i < cntRecords; i++)
+	{
+		oFile << records[i].Id << '\n' << records[i].Plane << '\n' << records[i].Type << '\n' << records[i].Flights << '\n';
+	}
+	oFile.close();
+}
+
+void showOffsetLimit(ifstream& iFile, int limit, int position, int cntRecords)
+{
+    if (position + limit > cntRecords)
+    {
+        return;
+    }
+    unsigned long long int readId;
+	char dummy[257];
+	char dummy2[257];
+	unsigned long long int readFlights;
+    for (int i = 0; i < position; ++i)
+    {
+        iFile >> readId >> dummy >> dummy2 >> readFlights;
+    }
+    Record * records = new Record [limit];
+    for (int i = 0; i < limit; ++i)
+    {
+        iFile >> readId >> dummy >> dummy2 >> readFlights;
+        records[i] = Record(readId, dummy, dummy2, readFlights);
+    }
+    iFile.close();
+    for (int i = 0; i < limit; ++i)
+    {
+        cout << records[i];
+    }
+}
