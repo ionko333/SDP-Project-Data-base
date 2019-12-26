@@ -17,6 +17,7 @@ void DeleteRecord()
 	if (recordPosition(Id) == -1)
 	{
 		cout << "A record with such Id does not exist\n";
+		return;
 	}
 	long long int position = recordPosition(Id);
 	Record * records = new (std::nothrow) Record[cntRecords];
