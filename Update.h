@@ -3,9 +3,6 @@
 #include "AuxiliaryFunctions.h"
 
 
-#include "AuxiliaryFunctions.h"
-
-
 void updateAttribute(bool isOptimized)
 {
 	long long int numOfRecords = getRecordsCnt();
