@@ -69,7 +69,12 @@ void normalSearch()
 	unsigned long long int Id;
 	cin >> Id;
 	cin.ignore();
-	long long int size = getRecordsCnt();
+	long long int pos = recordPosition(Id);
+	if (pos == -1)
+	{
+		cout << "A record with such Id does not exist \n";
+		return;
+	}
 	Record t;
 	ifstream iFile;
 	iFile.open("Planes.db", ios::binary);
@@ -78,22 +83,9 @@ void normalSearch()
 		cerr << "File cannot be opened \n";
 		return;
 	}
-	for (int i = 0; i < size; i++)
-	{
-		iFile.read((char*)&t, sizeof(Record));
-		if (t.getId() == Id)
-		{
-			cout << t;
-			iFile.close();
-			return;
-		}
-	}
+	iFile.seekg(pos*sizeof(Record),ios::beg);
+	iFile.read((char*)&t,sizeof(Record));
 	iFile.close();
-	if (!found)
-	{
-		cout << "A record with such Id does not exist in our data base \n";
-		return;
-	}
 }
 
 #endif // SEARCHING_H_INCLUDED
