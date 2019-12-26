@@ -58,6 +58,10 @@ int main()
 		{
 			break;
 		}
+		else
+                {
+                        cout << "Invalid command \n";
+                }
 	}
 	return 0;
 }
