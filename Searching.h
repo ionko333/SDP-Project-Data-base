@@ -58,6 +58,8 @@ void optimalSearch()
 
 void normalSearch()
 {
+	int cnt = getRecordsCnt();
+	bool found = false;
 	if (cnt == 0)
 	{
 		cout << "Data base is empty \n";
@@ -83,10 +85,15 @@ void normalSearch()
 		{
 			cout << t;
 			iFile.close();
-			break;
+			return;
 		}
 	}
 	iFile.close();
+	if (!found)
+	{
+		cout << "A record with such Id does not exist in our data base \n";
+		return;
+	}
 }
 
 #endif // SEARCHING_H_INCLUDED
