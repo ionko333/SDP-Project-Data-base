@@ -12,7 +12,6 @@ using namespace std;
 int main()
 {
 	string userInput;
-	long long int cntRecords = getRecordsCnt();
 	bool isOptimized = false;
 	while (true)
 	{
