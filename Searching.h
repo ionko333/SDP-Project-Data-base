@@ -58,6 +58,11 @@ void optimalSearch()
 
 void normalSearch()
 {
+	if (cnt == 0)
+	{
+		cout << "Data base is empty \n";
+		return;
+	}
 	cout << "Please enter the Id of the record you are looking for \n";
 	unsigned long long int Id;
 	cin >> Id;
