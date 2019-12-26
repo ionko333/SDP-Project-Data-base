@@ -17,7 +17,7 @@ long long int getRecordsCnt()
 	return cnt;
 }
 
-int recordPosition(unsigned long long int Id)
+long long int recordPosition(unsigned long long int Id)
 {
 	int recordsCnt = getRecordsCnt();
 	ifstream iFile;
