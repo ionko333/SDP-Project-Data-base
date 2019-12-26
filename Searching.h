@@ -25,6 +25,12 @@ long long int binarySearch(ifstream& iFile, int l, int r, unsigned long long int
 
 void optimalSearch()
 {
+	int cnt = getRecordsCnt();
+	if (cnt == 0)
+	{
+		cout << "Data base is empty \n";
+		return;
+	}
 	cout << "Please type the record's Id\n";
 	unsigned long long int Id;
 	cin >> Id;
